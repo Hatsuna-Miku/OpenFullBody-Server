@@ -245,20 +245,20 @@ public class TrackersList extends EJBoxNoStretch {
 				add(new JLabel("原始磁数据："), c(0, row, 2, GridBagConstraints.FIRST_LINE_START));
 				add(rawMag = new JLabel("0 0 0"), s(c(1, row, 2, GridBagConstraints.FIRST_LINE_START), 3, 1));
 				row++;
-				add(new JLabel("Cal:"), c(0, row, 2, GridBagConstraints.FIRST_LINE_START));
+				add(new JLabel("校准:"), c(0, row, 2, GridBagConstraints.FIRST_LINE_START));
 				add(calibration = new JLabel("0"), c(1, row, 2, GridBagConstraints.FIRST_LINE_START));
-				add(new JLabel("Mag acc:"), c(2, row, 2, GridBagConstraints.FIRST_LINE_START));
+				add(new JLabel("磁精度:"), c(2, row, 2, GridBagConstraints.FIRST_LINE_START));
 				add(magAccuracy = new JLabel("0°"), c(3, row, 2, GridBagConstraints.FIRST_LINE_START));
 				row++;
-				add(new JLabel("Correction:"), c(0, row, 2, GridBagConstraints.FIRST_LINE_START));
+				add(new JLabel("校正:"), c(0, row, 2, GridBagConstraints.FIRST_LINE_START));
 				add(correction = new JLabel("0 0 0"), s(c(1, row, 2, GridBagConstraints.FIRST_LINE_START), 3, 1));
 				row++;
 			}
 			
 			if(t instanceof ReferenceAdjustedTracker) {	
-				add(new JLabel("Adj:"), c(0, row, 2, GridBagConstraints.FIRST_LINE_START));
+				add(new JLabel("调整:"), c(0, row, 2, GridBagConstraints.FIRST_LINE_START));
 				add(adj = new JLabel("0 0 0 0"), c(1, row, 2, GridBagConstraints.FIRST_LINE_START));
-				add(new JLabel("AdjY:"), c(2, row, 2, GridBagConstraints.FIRST_LINE_START));
+				add(new JLabel("Y调整:"), c(2, row, 2, GridBagConstraints.FIRST_LINE_START));
 				add(adjYaw = new JLabel("0 0 0 0"), c(3, row, 2, GridBagConstraints.FIRST_LINE_START));
 			}
 

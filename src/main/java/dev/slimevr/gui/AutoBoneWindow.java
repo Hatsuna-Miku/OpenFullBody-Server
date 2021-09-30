@@ -54,7 +54,7 @@ public class AutoBoneWindow extends JFrame {
 	private JLabel lengthsLabel;
 	
 	public AutoBoneWindow(VRServer server, SkeletonConfig skeletonConfig) {
-		super("Skeleton Auto-Configuration");
+		super("自动骨骼绑定");
 		
 		this.server = server;
 		this.skeletonConfig = skeletonConfig;
@@ -91,14 +91,14 @@ public class AutoBoneWindow extends JFrame {
 				saveRecording = new File(saveDir, "ABRecording" + recordingIndex++ + ".pfr");
 			} while(saveRecording.exists());
 			
-			LogManager.log.info("[AutoBone] Exporting frames to \"" + saveRecording.getPath() + "\"...");
+			LogManager.log.info("[AutoBone] 关键帧导出至 \"" + saveRecording.getPath() + "\"...");
 			if(PoseFrameIO.writeToFile(saveRecording, frames)) {
-				LogManager.log.info("[AutoBone] Done exporting! Recording can be found at \"" + saveRecording.getPath() + "\".");
+				LogManager.log.info("[AutoBone] 导出完成，已存放至以下文件夹 \"" + saveRecording.getPath() + "\"。");
 			} else {
-				LogManager.log.severe("[AutoBone] Failed to export the recording to \"" + saveRecording.getPath() + "\".");
+				LogManager.log.severe("[AutoBone] 导出录制到 \"" + saveRecording.getPath() + "\"失败。");
 			}
 		} else {
-			LogManager.log.severe("[AutoBone] Failed to create the recording directory \"" + saveDir.getPath() + "\".");
+			LogManager.log.severe("[AutoBone] 在以下文件夹创建录制目录 \"" + saveDir.getPath() + "\"失败。");
 		}
 	}
 	
@@ -109,11 +109,11 @@ public class AutoBoneWindow extends JFrame {
 			if(files != null) {
 				for(File file : files) {
 					if(file.isFile() && org.apache.commons.lang3.StringUtils.endsWithIgnoreCase(file.getName(), ".pfr")) {
-						LogManager.log.info("[AutoBone] Detected recording at \"" + file.getPath() + "\", loading frames...");
+						LogManager.log.info("[AutoBone] 检测到录制记录于 \"" + file.getPath() + "\"，加载关键帧中...");
 						PoseFrame frames = PoseFrameIO.readFromFile(file);
 						
 						if(frames == null) {
-							LogManager.log.severe("Reading frames from \"" + file.getPath() + "\" failed...");
+							LogManager.log.severe("从 \"" + file.getPath() + "\" 中读取关键帧失败...");
 						} else {
 							recordings.add(Pair.of(file.getName(), frames));
 						}
@@ -154,7 +154,7 @@ public class AutoBoneWindow extends JFrame {
 		pane.add(new EJBox(BoxLayout.LINE_AXIS) {
 			{
 				setBorder(new EmptyBorder(i(5)));
-				add(new JButton("Start Recording") {
+				add(new JButton("开始录制") {
 					{
 						addMouseListener(new MouseInputAdapter() {
 							@Override
@@ -169,37 +169,37 @@ public class AutoBoneWindow extends JFrame {
 									public void run() {
 										try {
 											if(poseRecorder.isReadyToRecord()) {
-												setText("Recording...");
+												setText("录制中...");
 												// 1000 samples at 20 ms per sample is 20 seconds
 												int sampleCount = server.config.getInt("autobone.sampleCount", 1000);
 												long sampleRate = server.config.getLong("autobone.sampleRateMs", 20L);
 												Future<PoseFrame> framesFuture = poseRecorder.startFrameRecording(sampleCount, sampleRate);
 												PoseFrame frames = framesFuture.get();
-												LogManager.log.info("[AutoBone] Done recording!");
+												LogManager.log.info("[AutoBone] 录制完成！");
 												
 												saveRecordingButton.setEnabled(true);
 												adjustButton.setEnabled(true);
 												
 												if(server.config.getBoolean("autobone.saveRecordings", false)) {
-													setText("Saving...");
+													setText("保存中...");
 													saveRecording(frames);
 												}
 											} else {
-												setText("Not Ready...");
-												LogManager.log.severe("[AutoBone] Unable to record...");
+												setText("未完成...");
+												LogManager.log.severe("[AutoBone] 无法录制...");
 												Thread.sleep(3000); // Wait for 3 seconds
 												return;
 											}
 										} catch(Exception e) {
-											setText("Recording Failed...");
-											LogManager.log.severe("[AutoBone] Failed recording!", e);
+											setText("录制失败...");
+											LogManager.log.severe("[AutoBone] 录制失败！", e);
 											try {
 												Thread.sleep(3000); // Wait for 3 seconds
 											} catch(Exception e1) {
 												// Ignore
 											}
 										} finally {
-											setText("Start Recording");
+											setText("正在开始录制");
 											recordingThread = null;
 										}
 									}
@@ -212,7 +212,7 @@ public class AutoBoneWindow extends JFrame {
 					}
 				});
 				
-				add(saveRecordingButton = new JButton("Save Recording") {
+				add(saveRecordingButton = new JButton("保存记录") {
 					{
 						setEnabled(poseRecorder.hasRecording());
 						addMouseListener(new MouseInputAdapter() {
@@ -229,29 +229,29 @@ public class AutoBoneWindow extends JFrame {
 										try {
 											Future<PoseFrame> framesFuture = poseRecorder.getFramesAsync();
 											if(framesFuture != null) {
-												setText("Waiting for Recording...");
+												setText("正在等待录制...");
 												PoseFrame frames = framesFuture.get();
 												
 												if(frames.getTrackerCount() <= 0) {
-													throw new IllegalStateException("Recording has no trackers");
+													throw new IllegalStateException("无追踪器");
 												}
 												
 												if(frames.getMaxFrameCount() <= 0) {
-													throw new IllegalStateException("Recording has no frames");
+													throw new IllegalStateException("无关键帧");
 												}
 												
-												setText("Saving...");
+												setText("保存中...");
 												saveRecording(frames);
 												
-												setText("Recording Saved!");
+												setText("保存成功！");
 												try {
 													Thread.sleep(3000); // Wait for 3 seconds
 												} catch(Exception e1) {
 													// Ignore
 												}
 											} else {
-												setText("No Recording...");
-												LogManager.log.severe("[AutoBone] Unable to save, no recording was done...");
+												setText("未在录制...");
+												LogManager.log.severe("[AutoBone] 无法保存，未能完成录制...");
 												try {
 													Thread.sleep(3000); // Wait for 3 seconds
 												} catch(Exception e1) {
@@ -260,15 +260,15 @@ public class AutoBoneWindow extends JFrame {
 												return;
 											}
 										} catch(Exception e) {
-											setText("Saving Failed...");
-											LogManager.log.severe("[AutoBone] Failed to save recording!", e);
+											setText("保存失败...");
+											LogManager.log.severe("[AutoBone] 记录保存失败！", e);
 											try {
 												Thread.sleep(3000); // Wait for 3 seconds
 											} catch(Exception e1) {
 												// Ignore
 											}
 										} finally {
-											setText("Save Recording");
+											setText("保存记录");
 											saveRecordingThread = null;
 										}
 									}
@@ -281,7 +281,7 @@ public class AutoBoneWindow extends JFrame {
 					}
 				});
 				
-				add(adjustButton = new JButton("Auto-Adjust") {
+				add(adjustButton = new JButton("自动调整") {
 					{
 						// If there are files to load, enable the button
 						setEnabled(poseRecorder.hasRecording() || (loadDir.isDirectory() && loadDir.list().length > 0));
@@ -297,29 +297,29 @@ public class AutoBoneWindow extends JFrame {
 									@Override
 									public void run() {
 										try {
-											setText("Load...");
+											setText("加载中...");
 											List<Pair<String, PoseFrame>> frameRecordings = loadRecordings();
 											
 											if(!frameRecordings.isEmpty()) {
-												LogManager.log.info("[AutoBone] Done loading frames!");
+												LogManager.log.info("[AutoBone] 关键帧加载完成！");
 											} else {
 												Future<PoseFrame> framesFuture = poseRecorder.getFramesAsync();
 												if(framesFuture != null) {
-													setText("Waiting for Recording...");
+													setText("等待录制中...");
 													PoseFrame frames = framesFuture.get();
 													
 													if(frames.getTrackerCount() <= 0) {
-														throw new IllegalStateException("Recording has no trackers");
+														throw new IllegalStateException("无追踪器");
 													}
 													
 													if(frames.getMaxFrameCount() <= 0) {
-														throw new IllegalStateException("Recording has no frames");
+														throw new IllegalStateException("无关键帧");
 													}
 													
-													frameRecordings.add(Pair.of("<Recording>", frames));
+													frameRecordings.add(Pair.of("<录制中>", frames));
 												} else {
-													setText("No Recordings...");
-													LogManager.log.severe("[AutoBone] No recordings found in \"" + loadDir.getPath() + "\" and no recording was done...");
+													setText("无录制记录...");
+													LogManager.log.severe("[AutoBone] 目录 \"" + loadDir.getPath() + "\" 下未发现关键帧，录制未完成...");
 													try {
 														Thread.sleep(3000); // Wait for 3 seconds
 													} catch(Exception e1) {
@@ -329,14 +329,14 @@ public class AutoBoneWindow extends JFrame {
 												}
 											}
 											
-											setText("Processing...");
-											LogManager.log.info("[AutoBone] Processing frames...");
+											setText("处理中..");
+											LogManager.log.info("[AutoBone] 正在处理关键帧...");
 											FastList<Float> heightPercentError = new FastList<Float>(frameRecordings.size());
 											for(Pair<String, PoseFrame> recording : frameRecordings) {
-												LogManager.log.info("[AutoBone] Processing frames from \"" + recording.getKey() + "\"...");
+												LogManager.log.info("[AutoBone] 正在处理来自 \"" + recording.getKey() + "\"的关键帧...");
 												
 												heightPercentError.add(processFrames(recording.getValue()));
-												LogManager.log.info("[AutoBone] Done processing!");
+												LogManager.log.info("[AutoBone] 处理完成！");
 												applyButton.setEnabled(true);
 												
 												//#region Stats/Values
@@ -354,10 +354,10 @@ public class AutoBoneWindow extends JFrame {
 												float legBody = legsLength != null && waistLength != null && neckLength != null ? legsLength / (waistLength + neckLength) : 0f;
 												float kneeLeg = kneeHeight != null && legsLength != null ? kneeHeight / legsLength : 0f;
 												
-												LogManager.log.info("[AutoBone] Ratios: [{Neck-Waist: " + StringUtils.prettyNumber(neckWaist) + "}, {Chest-Waist: " + StringUtils.prettyNumber(chestWaist) + "}, {Hip-Waist: " + StringUtils.prettyNumber(hipWaist) + "}, {Leg-Waist: " + StringUtils.prettyNumber(legWaist) + "}, {Leg-Body: " + StringUtils.prettyNumber(legBody) + "}, {Knee-Leg: " + StringUtils.prettyNumber(kneeLeg) + "}]");
+												LogManager.log.info("[AutoBone] 系数：[{脖子-腰部: " + StringUtils.prettyNumber(neckWaist) + "}, {胸-腰部：" + StringUtils.prettyNumber(chestWaist) + "}, {臀-腰部：" + StringUtils.prettyNumber(hipWaist) + "}, {大腿-腰部：" + StringUtils.prettyNumber(legWaist) + "}, {大腿-身体：" + StringUtils.prettyNumber(legBody) + "}, {膝盖-大腿：" + StringUtils.prettyNumber(kneeLeg) + "}]");
 												
 												String lengthsString = getLengthsString();
-												LogManager.log.info("[AutoBone] Length values: " + lengthsString);
+												LogManager.log.info("[AutoBone] 长度：" + lengthsString);
 												lengthsLabel.setText(lengthsString);
 											}
 											
@@ -375,19 +375,19 @@ public class AutoBoneWindow extends JFrame {
 												}
 												std = (float) Math.sqrt(std / heightPercentError.size());
 												
-												LogManager.log.info("[AutoBone] Average height error: " + StringUtils.prettyNumber(mean, 6) + " (SD " + StringUtils.prettyNumber(std, 6) + ")");
+												LogManager.log.info("[AutoBone] 平均高度错误！" + StringUtils.prettyNumber(mean, 6) + " (SD " + StringUtils.prettyNumber(std, 6) + ")");
 											}
 											//#endregion
 										} catch(Exception e) {
-											setText("Failed...");
-											LogManager.log.severe("[AutoBone] Failed adjustment!", e);
+											setText("失败...");
+											LogManager.log.severe("[AutoBone] 调整失败！", e);
 											try {
 												Thread.sleep(3000); // Wait for 3 seconds
 											} catch(Exception e1) {
 												// Ignore
 											}
 										} finally {
-											setText("Auto-Adjust");
+											setText("自动调整");
 											autoBoneThread = null;
 										}
 									}
@@ -400,7 +400,7 @@ public class AutoBoneWindow extends JFrame {
 					}
 				});
 				
-				add(applyButton = new JButton("Apply Values") {
+				add(applyButton = new JButton("应用数值") {
 					{
 						setEnabled(false);
 						addMouseListener(new MouseInputAdapter() {
@@ -423,7 +423,7 @@ public class AutoBoneWindow extends JFrame {
 		pane.add(new EJBox(BoxLayout.LINE_AXIS) {
 			{
 				setBorder(new EmptyBorder(i(5)));
-				add(processLabel = new JLabel("Processing has not been started..."));
+				add(processLabel = new JLabel("还未开始处理..."));
 			}
 		});
 		

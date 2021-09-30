@@ -34,7 +34,7 @@ public class AutoBone {
 		
 		@Override
 		public String toString() {
-			return "Epoch: " + epoch + ", Epoch Error: " + epochError;
+			return "迭代次数：" + epoch + ", 迭代误差：" + epochError;
 		}
 	}
 	

@@ -105,66 +105,66 @@ public class SkeletonConfig extends EJBagNoStretch {
 			row++;
 
 			add(new JLabel("胸部"), c(0, row, 2));
-			add(new AdjButton("+", "胸部", 0.01f), c(1, row, 2));
-			add(new SkeletonLabel("胸部"), c(2, row, 2));
-			add(new AdjButton("-", "胸部", -0.01f), c(3, row, 2));
-			add(new ResetButton("重置", "胸部"), c(4, row, 2));
+			add(new AdjButton("+", "Chest", 0.01f), c(1, row, 2));
+			add(new SkeletonLabel("Chest"), c(2, row, 2));
+			add(new AdjButton("-", "Chest", -0.01f), c(3, row, 2));
+			add(new ResetButton("重置", "Chest"), c(4, row, 2));
 			row++;
 
-			add(new JLabel("腰部"), c(0, row, 2));
-			add(new AdjButton("+", "腰部", 0.01f), c(1, row, 2));
-			add(new SkeletonLabel("腰部"), c(2, row, 2));
-			add(new AdjButton("-", "腰部", -0.01f), c(3, row, 2));
-			add(new TimedResetButton("重置", "腰部"), c(4, row, 2));
+			add(new JLabel("Waist"), c(0, row, 2));
+			add(new AdjButton("+", "Waist", 0.01f), c(1, row, 2));
+			add(new SkeletonLabel("Waist"), c(2, row, 2));
+			add(new AdjButton("-", "Waist", -0.01f), c(3, row, 2));
+			add(new TimedResetButton("重置", "Waist"), c(4, row, 2));
 			row++;
 
 			add(new JLabel("臀部宽度"), c(0, row, 2));
-			add(new AdjButton("+", "臀部宽度", 0.01f), c(1, row, 2));
-			add(new SkeletonLabel("臀部宽度"), c(2, row, 2));
-			add(new AdjButton("-", "臀部宽度", -0.01f), c(3, row, 2));
-			add(new ResetButton("重置", "臀部宽度"), c(4, row, 2));
+			add(new AdjButton("+", "Hips width", 0.01f), c(1, row, 2));
+			add(new SkeletonLabel("Hips width"), c(2, row, 2));
+			add(new AdjButton("-", "Hips width", -0.01f), c(3, row, 2));
+			add(new ResetButton("重置", "Hips width"), c(4, row, 2));
 			row++;
 
 			add(new JLabel("腿长"), c(0, row, 2));
-			add(new AdjButton("+", "腿长", 0.01f), c(1, row, 2));
-			add(new SkeletonLabel("腿长"), c(2, row, 2));
-			add(new AdjButton("-", "腿长", -0.01f), c(3, row, 2));
-			add(new TimedResetButton("重置", "腿长"), c(4, row, 2));
+			add(new AdjButton("+", "Legs length", 0.01f), c(1, row, 2));
+			add(new SkeletonLabel("Legs length"), c(2, row, 2));
+			add(new AdjButton("-", "Legs length", -0.01f), c(3, row, 2));
+			add(new TimedResetButton("重置", "Legs length"), c(4, row, 2));
 			row++;
 
 			add(new JLabel("膝盖高度"), c(0, row, 2));
-			add(new AdjButton("+", "膝盖高度", 0.01f), c(1, row, 2));
-			add(new SkeletonLabel("膝盖高度"), c(2, row, 2));
-			add(new AdjButton("-", "膝盖高度", -0.01f), c(3, row, 2));
-			add(new TimedResetButton("重置", "膝盖高度"), c(4, row, 2));
+			add(new AdjButton("+", "Knee height", 0.01f), c(1, row, 2));
+			add(new SkeletonLabel("Knee height"), c(2, row, 2));
+			add(new AdjButton("-", "Knee height", -0.01f), c(3, row, 2));
+			add(new TimedResetButton("重置", "Knee height"), c(4, row, 2));
 			row++;
 
 			add(new JLabel("足长"), c(0, row, 2));
-			add(new AdjButton("+", "足长", 0.01f), c(1, row, 2));
-			add(new SkeletonLabel("足长"), c(2, row, 2));
-			add(new AdjButton("-", "足长", -0.01f), c(3, row, 2));
-			add(new ResetButton("重置", "足长"), c(4, row, 2));
+			add(new AdjButton("+", "Foot length", 0.01f), c(1, row, 2));
+			add(new SkeletonLabel("Foot length"), c(2, row, 2));
+			add(new AdjButton("-", "Foot length", -0.01f), c(3, row, 2));
+			add(new ResetButton("重置", "Foot length"), c(4, row, 2));
 			row++;
 
 			add(new JLabel("头部偏移"), c(0, row, 2));
-			add(new AdjButton("+", "头部", 0.01f), c(1, row, 2));
-			add(new SkeletonLabel("头部"), c(2, row, 2));
-			add(new AdjButton("-", "头部", -0.01f), c(3, row, 2));
-			add(new ResetButton("重置", "头部"), c(4, row, 2));
+			add(new AdjButton("+", "Head", 0.01f), c(1, row, 2));
+			add(new SkeletonLabel("Head"), c(2, row, 2));
+			add(new AdjButton("-", "Head", -0.01f), c(3, row, 2));
+			add(new ResetButton("重置", "Head"), c(4, row, 2));
 			row++;
 
 			add(new JLabel("脖子长度"), c(0, row, 2));
-			add(new AdjButton("+", "脖子", 0.01f), c(1, row, 2));
-			add(new SkeletonLabel("脖子"), c(2, row, 2));
-			add(new AdjButton("-", "脖子", -0.01f), c(3, row, 2));
-			add(new ResetButton("重置", "脖子"), c(4, row, 2));
+			add(new AdjButton("+", "Neck", 0.01f), c(1, row, 2));
+			add(new SkeletonLabel("Neck"), c(2, row, 2));
+			add(new AdjButton("-", "Neck", -0.01f), c(3, row, 2));
+			add(new ResetButton("重置", "Neck"), c(4, row, 2));
 			row++;
 
 			add(new JLabel("虚拟腰部"), c(0, row, 2));
-			add(new AdjButton("+", "虚拟腰部", 0.01f), c(1, row, 2));
-			add(new SkeletonLabel("虚拟腰部"), c(2, row, 2));
-			add(new AdjButton("-", "虚拟腰部", -0.01f), c(3, row, 2));
-			add(new ResetButton("重置", "虚拟腰部"), c(4, row, 2));
+			add(new AdjButton("+", "Virtual waist", 0.01f), c(1, row, 2));
+			add(new SkeletonLabel("Virtual waist"), c(2, row, 2));
+			add(new AdjButton("-", "Virtual waist", -0.01f), c(3, row, 2));
+			add(new ResetButton("重置", "Virtual waist"), c(4, row, 2));
 			row++;
 
 			gui.refresh();

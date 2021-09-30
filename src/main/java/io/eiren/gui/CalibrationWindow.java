@@ -25,7 +25,7 @@ public class CalibrationWindow extends JFrame {
 	private JButton calibrateButton;
 	
 	public CalibrationWindow(Tracker t) {
-		super(t.getName() + " calibration");
+		super(t.getName() + " 校准");
 		this.tracker = t;
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.LINE_AXIS));
 		
@@ -41,7 +41,7 @@ public class CalibrationWindow extends JFrame {
 	
 	public void newCalibrationRecieved(String str) {
 		java.awt.EventQueue.invokeLater(() -> {
-			calibrateButton.setText("Calibrate");
+			calibrateButton.setText("校准");
 			newCalibration.setText(str);
 			pack();
 		});
@@ -51,11 +51,11 @@ public class CalibrationWindow extends JFrame {
 	private void build() {
 		Container pane = getContentPane();
 		
-		pane.add(calibrateButton = new JButton("Calibrate") {{
+		pane.add(calibrateButton = new JButton("校准") {{
 			addMouseListener(new MouseInputAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					calibrateButton.setText("Calibrating...");
+					calibrateButton.setText("校准中...");
 					((CalibratingTracker) tracker).startCalibration(CalibrationWindow.this::newCalibrationRecieved);
 				}
 			});
@@ -63,14 +63,14 @@ public class CalibrationWindow extends JFrame {
 
 		pane.add(new EJBox(BoxLayout.PAGE_AXIS) {{
 			setBorder(new EmptyBorder(i(5)));
-			add(new JLabel("Current calibration"));
+			add(new JLabel("现有校准数据"));
 			add(currentCalibration = new JTextArea(10, 25));
 			
 			((CalibratingTracker) tracker).requestCalibrationData(CalibrationWindow.this::currentCalibrationRecieved);
 		}});
 		pane.add(new EJBox(BoxLayout.PAGE_AXIS) {{
 			setBorder(new EmptyBorder(i(5)));
-			add(new JLabel("New calibration"));
+			add(new JLabel("新建校准数据"));
 			add(newCalibration = new JTextArea(10, 25));
 		}});
 		

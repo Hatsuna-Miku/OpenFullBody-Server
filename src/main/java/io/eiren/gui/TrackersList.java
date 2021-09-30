@@ -210,9 +210,9 @@ public class TrackersList extends EJBoxNoStretch {
 				row++;
 			}
 			if(t.hasRotation())
-				add(new JLabel("Rotation"), c(0, row, 2, GridBagConstraints.FIRST_LINE_START));
+				add(new JLabel("旋转"), c(0, row, 2, GridBagConstraints.FIRST_LINE_START));
 			if(t.hasPosition())
-				add(new JLabel("Position"), c(1, row, 2, GridBagConstraints.FIRST_LINE_START));
+				add(new JLabel("位置"), c(1, row, 2, GridBagConstraints.FIRST_LINE_START));
 			add(new JLabel("TPS"), c(3, row, 2, GridBagConstraints.FIRST_LINE_START));
 			if(realTracker instanceof IMUTracker) {
 				add(new JLabel("Ping"), c(2, row, 2, GridBagConstraints.FIRST_LINE_START));
@@ -231,18 +231,18 @@ public class TrackersList extends EJBoxNoStretch {
 				add(new JLabel(""), c(3, row, 2, GridBagConstraints.FIRST_LINE_START));
 			}
 			row++;
-			add(new JLabel("Status:"), c(0, row, 2, GridBagConstraints.FIRST_LINE_START));
+			add(new JLabel("状态："), c(0, row, 2, GridBagConstraints.FIRST_LINE_START));
 			add(status = new JLabel(t.getStatus().toString().toLowerCase()), c(1, row, 2, GridBagConstraints.FIRST_LINE_START));
 			if(realTracker instanceof TrackerWithBattery) {
-				add(new JLabel("Battery:"), c(2, row, 2, GridBagConstraints.FIRST_LINE_START));
+				add(new JLabel("电量："), c(2, row, 2, GridBagConstraints.FIRST_LINE_START));
 				add(bat = new JLabel("0"), c(3, row, 2, GridBagConstraints.FIRST_LINE_START));
 			}
 			row++;
-			add(new JLabel("Raw:"), c(0, row, 2, GridBagConstraints.FIRST_LINE_START));
+			add(new JLabel("原始数据："), c(0, row, 2, GridBagConstraints.FIRST_LINE_START));
 			add(raw = new JLabel("0 0 0"), s(c(1, row, 2, GridBagConstraints.FIRST_LINE_START), 3, 1));
 			row++;
 			if(realTracker instanceof IMUTracker) {
-				add(new JLabel("Raw mag:"), c(0, row, 2, GridBagConstraints.FIRST_LINE_START));
+				add(new JLabel("原始磁数据："), c(0, row, 2, GridBagConstraints.FIRST_LINE_START));
 				add(rawMag = new JLabel("0 0 0"), s(c(1, row, 2, GridBagConstraints.FIRST_LINE_START), 3, 1));
 				row++;
 				add(new JLabel("Cal:"), c(0, row, 2, GridBagConstraints.FIRST_LINE_START));

@@ -41,7 +41,7 @@ public class WiFiWindow extends JFrame {
 	TimerTask readTask;
 	
 	public WiFiWindow(VRServerGUI gui) {
-		super("WiFi Settings");
+		super("WiFi设置");
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.LINE_AXIS));
 		
 		build();
@@ -61,7 +61,7 @@ public class WiFiWindow extends JFrame {
 		}
 		pane.add(new EJBox(BoxLayout.PAGE_AXIS) {{
 			if(trackerPort == null) {
-				add(new JLabel("No trackers connected, connect tracker to USB and reopen window"));
+				add(new JLabel("未检测到追踪器连接。请将追踪器通过USB串口连接到电脑再重新打开该窗口"));
 				timer.schedule(new TimerTask() {
 					@Override
 					public void run() {
@@ -69,30 +69,30 @@ public class WiFiWindow extends JFrame {
 					}
 				}, 5000);
 			} else {
-				add(new JLabel("Tracker connected to " + trackerPort.getSystemPortName() + " (" + trackerPort.getDescriptivePortName() + ")"));
+				add(new JLabel("追踪器已连接到 " + trackerPort.getSystemPortName() + " (" + trackerPort.getDescriptivePortName() + ")"));
 				JScrollPane scroll;
 				add(scroll = new JScrollPane(log = new JTextArea(10, 20), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER));
 				log.setLineWrap(true);
 				scroll.setAutoscrolls(true);
 				if(trackerPort.openPort()) {
 					trackerPort.setBaudRate(115200);
-					log.append("[OK] Port opened\n");
+					log.append("[完成] 端口开启\n");
 					readTask = new ReadTask();
 					timer.schedule(readTask, 500, 500);
 				} else {
-					log.append("ERROR: Can't open port");
+					log.append("错误：无法打开端口");
 				}
 				
-				add(new JLabel("Enter WiFi credentials:"));
+				add(new JLabel("设置WiFi凭据："));
 				add(new EJBox(BoxLayout.LINE_AXIS) {{
-					add(new JLabel("Network name:"));
+					add(new JLabel("WiFi名称："));
 					add(ssidField = new JTextField(savedSSID));
 				}});
 				add(new EJBox(BoxLayout.LINE_AXIS) {{
-					add(new JLabel("Network password:"));
+					add(new JLabel("WiFi密码"));
 					add(passwdField = new JTextField(savedPassword));
 				}});
-				add(new JButton("Send") {{
+				add(new JButton("发送") {{
 					addMouseListener(new MouseInputAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
@@ -123,7 +123,7 @@ public class WiFiWindow extends JFrame {
 	            	trackerPort.closePort();
 	            if(readTask != null)
 	            	readTask.cancel();
-	            System.out.println("Port closed okay");
+	            System.out.println("端口已关闭");
 	            dispose();
 	        }
 	    });

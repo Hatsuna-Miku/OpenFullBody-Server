@@ -44,13 +44,13 @@ public class SkeletonList extends EJBagNoStretch {
 			removeAll();
 			nodes.clear();
 			
-			add(new JLabel("Joint"), c(0, 0, 2));
+			add(new JLabel("关节"), c(0, 0, 2));
 			add(new JLabel("X"), c(1, 0, 2));
 			add(new JLabel("Y"), c(2, 0, 2));
 			add(new JLabel("Z"), c(3, 0, 2));
-			add(new JLabel("Pitch"), c(4, 0, 2));
-			add(new JLabel("Yaw"), c(5, 0, 2));
-			add(new JLabel("Roll"), c(6, 0, 2));
+			add(new JLabel("俯仰角"), c(4, 0, 2));
+			add(new JLabel("偏航角"), c(5, 0, 2));
+			add(new JLabel("滚转角"), c(6, 0, 2));
 			
 			newSkeleton.getRootNode().depthFirstTraversal((node) -> {
 				int n = nodes.size();

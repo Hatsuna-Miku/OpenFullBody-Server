@@ -36,7 +36,7 @@ import static javax.swing.BoxLayout.LINE_AXIS;
 
 public class VRServerGUI extends JFrame {
 	
-	public static final String TITLE = "SlimeVR Server (" + Main.VERSION + ")";
+	public static final String TITLE = "OpenFullBody Server (" + Main.VERSION + ")";
 	
 	public final VRServer server;
 	private final TrackersList trackersList;
@@ -142,7 +142,7 @@ public class VRServerGUI extends JFrame {
 			setBorder(new EmptyBorder(i(5)));
 			
 			add(Box.createHorizontalGlue());
-			add(resetButton = new JButton("RESET") {{
+			add(resetButton = new JButton("重置") {{
 				addMouseListener(new MouseInputAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
@@ -151,7 +151,7 @@ public class VRServerGUI extends JFrame {
 				});
 			}});
 			add(Box.createHorizontalStrut(10));
-			add(new JButton("Fast Reset") {{
+			add(new JButton("快速重置") {{
 				addMouseListener(new MouseInputAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
@@ -160,12 +160,12 @@ public class VRServerGUI extends JFrame {
 				});
 			}});
 			add(Box.createHorizontalGlue());
-			add(new JButton("GUI Zoom (x" + StringUtils.prettyNumber(zoom, 2) + ")") {{
+			add(new JButton("界面缩放 (x" + StringUtils.prettyNumber(zoom, 2) + ")") {{
 				addMouseListener(new MouseInputAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						guiZoom();
-						setText("GUI Zoom (x" + StringUtils.prettyNumber(zoom, 2) + ")");
+						setText("界面缩放 (x" + StringUtils.prettyNumber(zoom, 2) + ")");
 					}
 				});
 			}});
@@ -186,26 +186,26 @@ public class VRServerGUI extends JFrame {
 			setBorder(new EmptyBorder(i(5)));
 			add(new EJBoxNoStretch(PAGE_AXIS, false, true) {{
 				setAlignmentY(TOP_ALIGNMENT);
-				add(new JLabel("Trackers list"));
+				add(new JLabel("追踪器列表"));
 				add(trackersList);
 				add(Box.createVerticalGlue());
 			}});
 
 			add(new EJBoxNoStretch(PAGE_AXIS, false, true) {{
 				setAlignmentY(TOP_ALIGNMENT);
-				add(new JLabel("Body proportions"));
+				add(new JLabel("身材参数"));
 				add(new SkeletonConfig(server, VRServerGUI.this));
 				add(Box.createVerticalStrut(10));
 				
 				if(server.hasBridge(NamedPipeVRBridge.class)) {
-					add(new JLabel("SteamVR trackers"));
+					add(new JLabel("SteamVR 追踪器"));
 					JComboBox<String> trackersSelect;
 					add(trackersSelect = new JComboBox<>());
-					trackersSelect.addItem("Waist");
-					trackersSelect.addItem("Waist + Legs");
-					trackersSelect.addItem("Waist + Legs + Chest");
-					trackersSelect.addItem("Waist + Legs + Knees");
-					trackersSelect.addItem("Waist + Legs + Chest + Knees");
+					trackersSelect.addItem("腰部");
+					trackersSelect.addItem("腰部 + 大腿");
+					trackersSelect.addItem("腰部 + 大腿 + 胸部");
+					trackersSelect.addItem("腰部 + 大腿 + 膝盖");
+					trackersSelect.addItem("腰部 + 大腿 + 胸部 + 膝盖");
 					switch(server.config.getInt("virtualtrackers", 3)) {
 					case 1:
 						trackersSelect.setSelectedIndex(0);
@@ -248,7 +248,7 @@ public class VRServerGUI extends JFrame {
 					});
 					add(Box.createVerticalStrut(10));
 				}
-				add(new JLabel("Skeleton data"));
+				add(new JLabel("骨骼数据"));
 				add(skeletonList);
 				add(Box.createVerticalGlue());
 			}});
@@ -261,7 +261,7 @@ public class VRServerGUI extends JFrame {
 		server.addOnTick(skeletonList::updateBones);
 	}
 	
-	// For now only changes font size, but should change fixed components size in the future too
+	// 目前只能改变字体大小，未来应该会改掉这个固定大小的组件
 	private void guiZoom() {
 		if(zoom <= 1.0f) {
 			zoom = 1.5f;

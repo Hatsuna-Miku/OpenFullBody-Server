@@ -55,7 +55,7 @@ public class TrackersUDPServer extends Thread {
 	}
 	
 	private void setUpNewSensor(DatagramPacket handshakePacket, ByteBuffer data) throws IOException {
-		System.out.println("[TrackerServer] Handshake recieved from " + handshakePacket.getAddress() + ":" + handshakePacket.getPort());
+		System.out.println("[TrackerServer]收到来自" + handshakePacket.getAddress() + ":" + handshakePacket.getPort() + "的握手");
 		InetAddress addr = handshakePacket.getAddress();
 		TrackerConnection sensor;
 		synchronized(trackers) {
@@ -115,19 +115,19 @@ public class TrackersUDPServer extends Thread {
 				trackers.add(sensor);
 				trackersMap.put(addr, sensor);
 			}
-			System.out.println("[TrackerServer] Sensor " + i + " added with address " + handshakePacket.getSocketAddress() + ". Board type: " + boardType + ", imu type: " + imuType + ", firmware: " + firmware + " (" + firmwareBuild + "), mac: " + macString + ", name: " + trackerName);
+			System.out.println("[TrackerServer] 追踪器 " + i + " 以IP " + handshakePacket.getSocketAddress() + "加入。板子类型：" + boardType + "，IMU类型：" + imuType + "，固件版本：" + firmware + " (" + firmwareBuild + ")，MAC地址：" + macString + "，名称：" + trackerName);
 		}
 		sensor.tracker.setStatus(TrackerStatus.OK);
         socket.send(new DatagramPacket(HANDSHAKE_BUFFER, HANDSHAKE_BUFFER.length, handshakePacket.getAddress(), handshakePacket.getPort()));
 	}
 	
 	private void setUpAuxilarySensor(TrackerConnection connection) throws IOException {
-		System.out.println("[TrackerServer] Setting up auxilary sensor for " + connection.tracker.getName());
+		System.out.println("[TrackerServer] 正为 " + connection.tracker.getName() + "设置辅助IMU");
 		IMUTracker imu = new IMUTracker(connection.tracker.getName() + "/1", this);
 		connection.secondTracker = imu;
 		ReferenceAdjustedTracker<IMUTracker> adjustedTracker = new ReferenceAdjustedTracker<>(imu);
 		trackersConsumer.accept(adjustedTracker);
-		System.out.println("[TrackerServer] Sensor added with address " + imu.getName());
+		System.out.println("[TrackerServer] 追踪器以 " + imu.getName() + "加入");
 	}
 	
 	
@@ -345,12 +345,12 @@ public class TrackersUDPServer extends Thread {
 						}
 						int tap = bb.get() & 0xFF;
 						BnoTap tapObj = new BnoTap(tap);
-						System.out.println("[TrackerServer] Tap packet received from " + tracker.getName() + "/" + sensorId + ": " + tapObj  + " (b" + Integer.toBinaryString(tap) + ")");
+						System.out.println("[TrackerServer] 收到来自 " + tracker.getName() + "/" + sensorId + ": " + tapObj  + " (b" + Integer.toBinaryString(tap) + ")的Tap包");
 						break;
 					case 14: // PACKET_RESET_REASON
 						bb.getLong();
 						byte reason = bb.get();
-						System.out.println("[TrackerServer] Reset recieved from " + recieve.getSocketAddress() + ": " + reason);
+						System.out.println("[TrackerServer] 收到来自 " + recieve.getSocketAddress() + ": " + reason + "的重置请求");
 						if(connection == null)
 							break;
 						tracker = connection.tracker;
@@ -373,7 +373,7 @@ public class TrackersUDPServer extends Thread {
 						System.out.println("[TrackerServer] Sensor info for " + connection.tracker.getName() + "/" + sensorId + ": " + sensorStatus);
 						break;
 					default:
-						System.out.println("[TrackerServer] Unknown data received: " + packetId + " from " + recieve.getSocketAddress());
+						System.out.println("[TrackerServer] 收到来自" +recieve.getSocketAddress() + "，编号为" + packetId + "的未知数据 " );
 						break;
 					}
 				} catch(SocketTimeoutException e) {
